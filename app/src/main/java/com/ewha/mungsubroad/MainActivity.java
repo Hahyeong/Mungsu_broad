@@ -10,6 +10,7 @@ import androidx.core.content.ContextCompat;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -47,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         setContentView(R.layout.activity_main);
 
         // 권한 확인
@@ -64,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Create broadcastSession
         Context ctx = getApplicationContext();
-        BroadcastSession broadcastSession = new BroadcastSession(ctx, broadcastListener, Presets.Configuration.STANDARD_PORTRAIT, Presets.Devices.FRONT_CAMERA(ctx));
+        BroadcastSession broadcastSession = new BroadcastSession(ctx, broadcastListener, Presets.Configuration.STANDARD_LANDSCAPE, Presets.Devices.BACK_CAMERA(ctx));
 
         broadcastSession.awaitDeviceChanges(() -> {
             for(Device device: broadcastSession.listAttachedDevices()) {
@@ -87,6 +89,7 @@ public class MainActivity extends AppCompatActivity {
                 broadcastSession.start("rtmps://3c90cab980bd.global-contribute.live-video.net:443/app/", "sk_ap-northeast-2_yFcoiZCkIOLg_vKCoVZPK8UBYWahI8dUXOVUmQlwASj");
 
                 Toast.makeText(ctx,"CCTV 촬영을 시작합니다", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ctx,"네트워크와 전원 연결을 유지해 주세요", Toast.LENGTH_SHORT).show();
             }
         });
 
